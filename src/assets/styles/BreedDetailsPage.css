@@ -37,8 +37,8 @@
 
 #goback {
   position: absolute;
-  top: 30px;
   left: 30px;
+  top: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
