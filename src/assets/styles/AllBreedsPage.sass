@@ -1,0 +1,53 @@
+@import helpers
+
+.breeds-page-container
+    max-width: 100vw
+    min-height: 100vh
+    padding: 20px
+    @include verticalCenter()
+    justify-content: flex-start
+    h1
+        font-size: 25px
+        margin-bottom: 20px
+
+.breed-box
+    width: 100%
+    height: 100px
+    @include center()
+    border: 1px solid #fff
+    background-color: rgba(#fff, 0.3)
+    border-radius: 10px
+    cursor: pointer
+    &:hover
+        background-color: rgba(#fff, 0.5)
+    a
+        width: 100%
+        height: 100%
+        @include center()
+        text-transform: capitalize
+        font-size: 25px
+        color: #124080 
+    
+.breeds-container
+    width: 100%
+    display: grid
+    grid-template-columns: 1fr
+    grid-gap: 10px
+    @include plus600()
+        grid-template-columns: 1fr 1fr
+    @include plus1025()
+        width: 60%
+    @include plus1441()
+        grid-template-columns: repeat(3, 1fr)
+
+#load-more
+    margin-top: 20px
+    width: 200px
+    height: 48px
+    border-radius: 25px
+    background-color: rgba(#2B69BD, 0.8 )
+    color: #fff
+    cursor: pointer
+    font-size: 20px
+    &:hover
+        background-color: rgba(#2B69BD, 1 )

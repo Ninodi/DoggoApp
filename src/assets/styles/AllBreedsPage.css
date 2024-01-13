@@ -1,0 +1,75 @@
+.breeds-page-container {
+  max-width: 100vw;
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.breeds-page-container h1 {
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+
+.breed-box {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #fff;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.breed-box:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.breed-box a {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+  font-size: 25px;
+  color: #124080;
+}
+
+.breeds-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+}
+@media screen and (min-width: 600px) {
+  .breeds-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (min-width: 1025px) {
+  .breeds-container {
+    width: 60%;
+  }
+}
+@media screen and (min-width: 1441px) {
+  .breeds-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+#load-more {
+  margin-top: 20px;
+  width: 200px;
+  height: 48px;
+  border-radius: 25px;
+  background-color: rgba(43, 105, 189, 0.8);
+  color: #fff;
+  cursor: pointer;
+  font-size: 20px;
+}
+#load-more:hover {
+  background-color: #2b69bd;
+}/*# sourceMappingURL=AllBreedsPage.css.map */
