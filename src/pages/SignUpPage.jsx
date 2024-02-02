@@ -3,10 +3,13 @@ import '../assets/styles/SignUpPage.css'
 import { Link, useNavigate } from 'react-router-dom'
 import PasswordInput from '../components/PasswordInput'
 import useRequest from '../hooks/useRequest'
+import useFetch from '../hooks/useFetch'
 
 function SignUpPage() {
     const navigate = useNavigate()
     const {loading, sendRequest} = useRequest()
+    const {data} = useFetch({url: 'https://crudapi.co.uk/api/v1/doggoUsers'})
+
     const [isFocused, setIsFocused] = useState({
         email: false,
         password: false,
@@ -41,6 +44,9 @@ function SignUpPage() {
         return false
       }else if(!email.match(emailRegex)){
         setSignupError(prev => ({...prev, emailError: 'Email is invalid'})) 
+        return false
+      }else if(data?.some(user => user.email === email)){
+        setSignupError(prev => ({...prev, emailError: 'This email already exists'})) 
         return false
       }
     

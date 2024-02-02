@@ -39,7 +39,12 @@ function LogInPage() {
   const validateEmail = (email) => {
     emailExists = data?.some(user => user.email === email)
 
-    if(!emailExists){
+    console.log(emailExists)
+
+    if(email.length === 0 || email === null){
+      setErrorMessages(prev => ({...prev, emailError: 'Please enter email'}))
+      return false 
+    }else if(!emailExists){
       setErrorMessages(prev => ({...prev, emailError: 'This user does not exist'}))
       return false 
     }
@@ -51,7 +56,10 @@ function LogInPage() {
   const validatePassword = (password, email) => {
     let isCorrectPass = data?.some(user => user.email === email && user.password === password)
 
-    if(emailExists && !isCorrectPass){
+    if(password === null || password.length === 0){
+      setErrorMessages(prev => ({...prev, passwordError: 'Please enter password'}))
+      return false
+    }else if(emailExists && !isCorrectPass){
       setErrorMessages(prev => ({...prev, passwordError: 'Password is not correct'}))
       return false
     }
