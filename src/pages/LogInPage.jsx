@@ -83,6 +83,7 @@ function LogInPage() {
   }
 
   useEffect(() => {
+    localStorage.setItem('displayedBreedsNum', 10)
     if(localStorage.getItem('logged') === "true") navigate('/allBreeds')
   }, [])
 

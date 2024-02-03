@@ -5,6 +5,7 @@ function useLogout() {
 
     const handleLogout = () => {
         localStorage.setItem('logged', JSON.stringify(false))
+        localStorage.setItem('displayedBreedsNum', 10)
         navigate('/login')
     }
 

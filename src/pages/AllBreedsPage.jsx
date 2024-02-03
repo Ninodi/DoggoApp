@@ -5,17 +5,22 @@ import Logout from '../components/Logout';
 import DogBreed from '../components/DogBreed';
 import '../assets/styles/AllBreedsPage.css'
 import useLogout from '../hooks/useLogout';
-import { BounceLoader } from 'react-spinners';
+import Loader from '../components/Loader';
 
 function AllBreedsPage() {
     const {data, error, loading} = useFetch({url: 'https://dog.ceo/api/breeds/list/all'})
+    const displayedBreedsNum = +localStorage.getItem('displayedBreedsNum')
     const handleLogout = useLogout()
     const [breeds, setBreeds] = useState([])
-    const [displaydBreeds, setDisplaydBreeds] = useState(10)
-    let slicedData = breeds.slice(0, displaydBreeds)
+    const [displayedBreeds, setDisplaydBreeds] = useState(displayedBreedsNum)
+    let slicedData = breeds.slice(0, displayedBreeds)
 
     const loadMore = () => {
-        setDisplaydBreeds(prev => Math.min(prev + 10, breeds.length))
+      setDisplaydBreeds(prev => {
+        const newDisplayedBreeds = Math.min(prev + 10, breeds.length)
+        localStorage.setItem('displayedBreedsNum', newDisplayedBreeds)
+        return newDisplayedBreeds
+      })
     }
 
     useEffect(() => {
@@ -32,7 +37,7 @@ function AllBreedsPage() {
       <h1>Here are all the breeds</h1>
       {
         loading 
-        ? <BounceLoader className='loader' cssOverride={{position: 'fixed'}} color="#fff" />
+        ? <Loader />
         : <div className="breeds-container">
             {error 
               ?  <h1>No doggos found</h1>
@@ -45,7 +50,7 @@ function AllBreedsPage() {
       </div>
       }
       {
-        !loading && !(displaydBreeds >= breeds?.length)
+        !loading && !(displayedBreeds >= breeds?.length)
         ? <button id='load-more' onClick={loadMore}>Load more</button>
         : null
       }
