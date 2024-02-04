@@ -76,7 +76,7 @@ label {
 }
 label.focused {
   top: -14px;
-  font-size: 18px;
+  font-size: 16px;
   height: auto;
   font-weight: 600;
   color: rgb(43, 105, 189);

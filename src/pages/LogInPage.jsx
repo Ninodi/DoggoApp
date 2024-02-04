@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import '../assets/styles/LogInPage.css'
 import PasswordInput from '../components/PasswordInput';
 import useFetch from '../hooks/useFetch';
+import _debounce from 'lodash/debounce'
+import useSetGridItems from '../hooks/useSetGridItems';
 
 function LogInPage() {
+  const {itemNum} = useSetGridItems()
   const navigate = useNavigate()
   const [isFocused, setIsFocused] = useState({
     email: false,
@@ -68,6 +71,24 @@ function LogInPage() {
     return true
   }
 
+  const debouncedHandleErrorReset = useCallback(
+    _debounce((errType) => {
+      setErrorMessages((prev) => {
+        if (prev[errType] === '') {
+          return prev
+        } else {
+          return { ...prev, [errType]: '' }
+        }
+      })
+      console.log('error cleared')
+
+    }, 1000),
+    []
+  )
+  
+  const handleErrorReset = (errType) => {
+    debouncedHandleErrorReset(errType)
+  }
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -83,7 +104,7 @@ function LogInPage() {
   }
 
   useEffect(() => {
-    localStorage.setItem('displayedBreedsNum', 10)
+    localStorage.setItem('displayedBreedsNum', itemNum)
     if(localStorage.getItem('logged') === "true") navigate('/allBreeds')
   }, [])
 
@@ -97,6 +118,7 @@ function LogInPage() {
               type="email" 
               id='email'
               className={isFocused.email || loginData.email ? 'focused' : ''}
+              onKeyDown={() => handleErrorReset('emailError')}
               onChange={(e) => setLoginData({...loginData, email: e.target.value})}
               onFocus={() => handleFocus('email')}
               onBlur={() => handleBlur('email')}
@@ -111,6 +133,7 @@ function LogInPage() {
           errorMessages={errorMessages}
           handleBlur={handleBlur}
           handleFocus={handleFocus}
+          handleErrorReset={handleErrorReset}
           isFocused={isFocused}
           id={'password'}
         />

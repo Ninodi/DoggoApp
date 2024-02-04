@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
-function PasswordInput({setData, data, errorMessages, id, handleFocus, handleBlur, isFocused}) {
+function PasswordInput({setData, data, errorMessages, id, handleFocus, handleBlur, isFocused, handleErrorReset}) {
 const [showPass, setShowPass] = useState(false)
 
 const toggleShowPass = () => {
@@ -22,6 +22,7 @@ const passType = () => {
                     id={id}
                     className={isFocused[id] || data[id] ? 'focused' : ''}
                     maxLength="16"
+                    onKeyDown={() => handleErrorReset(id+'Error')}
                     onChange={(e) => setData({...data, [id === "password" ? "password" : "repeatPassword"]: e.target.value})}
                     onFocus={() => handleFocus(`${id}`)}
                     onBlur={() => handleBlur(`${id}`)}

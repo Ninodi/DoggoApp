@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import '../assets/styles/SignUpPage.css'
 import { Link, useNavigate } from 'react-router-dom'
 import PasswordInput from '../components/PasswordInput'
 import useRequest from '../hooks/useRequest'
 import useFetch from '../hooks/useFetch'
+import _debounce from 'lodash/debounce'
+import useSetGridItems from '../hooks/useSetGridItems'
 
 function SignUpPage() {
+    const {itemNum} = useSetGridItems()
     const navigate = useNavigate()
     const {loading, sendRequest} = useRequest()
     const {data} = useFetch({url: 'https://crudapi.co.uk/api/v1/doggoUsers'})
@@ -78,6 +81,27 @@ function SignUpPage() {
         setSignupError(prev => ({ ...prev, repeatPasswordError: '' }))
         return true
     }
+
+
+    const debouncedHandleErrorReset = useCallback(
+      _debounce((errType) => {
+        setSignupError((prev) => {
+          if (prev[errType] === '') {
+            return prev
+          } else {
+            return { ...prev, [errType]: '' }
+          }
+        })
+        console.log('error cleared')
+  
+      }, 1000),
+      []
+    )
+    
+    const handleErrorReset = (errType) => {
+      debouncedHandleErrorReset(errType)
+    }
+
     const handleSignUp = (e) => {
       e.preventDefault()
   
@@ -96,7 +120,7 @@ function SignUpPage() {
 
   
     useEffect(() => {
-      localStorage.setItem('displayedBreedsNum', 10)
+      localStorage.setItem('displayedBreedsNum', itemNum)
       if(localStorage.getItem('logged') === "true") navigate('/allBreeds')
     }, [])
 
@@ -111,6 +135,7 @@ function SignUpPage() {
                         type="email" 
                         id='email'
                         className={isFocused.email || userData.email ? 'focused' : ''}
+                        onKeyDown={() => handleErrorReset('emailError')}
                         onChange={(e) => setuserData({...userData, email: e.target.value})}
                         onFocus={() => handleFocus('email')}
                         onBlur={() => handleBlur('email')}
@@ -124,6 +149,7 @@ function SignUpPage() {
                 errorMessages={signupError}
                 handleBlur={handleBlur}
                 handleFocus={handleFocus}
+                handleErrorReset={handleErrorReset}
                 isFocused={isFocused}
                 id={'password'}
             />
@@ -133,6 +159,7 @@ function SignUpPage() {
                 errorMessages={signupError}
                 handleBlur={handleBlur}
                 handleFocus={handleFocus}
+                handleErrorReset={handleErrorReset}
                 isFocused={isFocused}
                 id={'repeatPassword'}
             />

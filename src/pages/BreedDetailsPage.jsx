@@ -7,16 +7,20 @@ import BreedDetailsBox from '../components/BreedDetailsBox'
 import '../assets/styles/BreedDetailsPage.css'
 import { RiArrowGoBackFill } from "react-icons/ri";
 import Loader from '../components/Loader'
+import useSetGridItems from '../hooks/useSetGridItems'
 
 function BreedDetailsPage() {
     const {breedName} = useParams()
     const navigate = useNavigate()
     const {data, loading} = useFetch({url: `https://dog.ceo/api/breed/${breedName}/images/random`})
     const handleLogout = useLogout()
+    // const {itemNum} = useSetGridItems()
 
     const goBack = () => {
       navigate('/allBreeds')
     }
+
+
   return (
     <div className='breed-page-container'>
       <Logout onLogout={handleLogout}/>
